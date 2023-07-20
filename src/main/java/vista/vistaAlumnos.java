@@ -1,15 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package vista;
 
 import conexion.conexion;
 import modelo.alumnos;
 
 /**
- *
  * @author Asus
  */
 public class vistaAlumnos extends javax.swing.JFrame {
@@ -19,7 +13,8 @@ public class vistaAlumnos extends javax.swing.JFrame {
      */
     public vistaAlumnos() {
         initComponents();
-        
+        this.setLocationRelativeTo(null);
+        txtIDAlumno.disable();
         alumnos objAlumno = new alumnos();
         objAlumno.mostrarAlumnos(tbListaAlumno);
     }
@@ -40,14 +35,15 @@ public class vistaAlumnos extends javax.swing.JFrame {
         txtIDAlumno = new javax.swing.JTextField();
         txtNombreAlumno = new javax.swing.JTextField();
         txtApellidoAlumno = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnInsertar = new javax.swing.JButton();
+        btnModificar = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbListaAlumno = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos de alumnos"));
 
@@ -57,11 +53,33 @@ public class vistaAlumnos extends javax.swing.JFrame {
 
         jLabel3.setText("Apellidos");
 
-        jButton1.setText("Guardar");
+        btnInsertar.setBackground(new java.awt.Color(0, 204, 204));
+        btnInsertar.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        btnInsertar.setForeground(new java.awt.Color(255, 255, 255));
+        btnInsertar.setText("Guardar");
+        btnInsertar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInsertarActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Modificar");
+        btnModificar.setBackground(new java.awt.Color(51, 102, 255));
+        btnModificar.setForeground(new java.awt.Color(255, 255, 255));
+        btnModificar.setText("Modificar");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("Eliminar");
+        btnEliminar.setBackground(new java.awt.Color(255, 51, 51));
+        btnEliminar.setForeground(new java.awt.Color(255, 255, 255));
+        btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -73,10 +91,10 @@ public class vistaAlumnos extends javax.swing.JFrame {
                         .addGap(37, 37, 37)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 131, Short.MAX_VALUE))
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, 131, Short.MAX_VALUE))
+                            .addComponent(btnInsertar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(0, 67, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
@@ -111,11 +129,11 @@ public class vistaAlumnos extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(txtApellidoAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(67, 67, 67)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnInsertar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(btnModificar)
+                    .addComponent(btnEliminar))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -132,6 +150,11 @@ public class vistaAlumnos extends javax.swing.JFrame {
 
             }
         ));
+        tbListaAlumno.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbListaAlumnoMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbListaAlumno);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -147,8 +170,8 @@ public class vistaAlumnos extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 448, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -160,7 +183,7 @@ public class vistaAlumnos extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 474, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -169,11 +192,49 @@ public class vistaAlumnos extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnInsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertarActionPerformed
+        alumnos objAlumno = new alumnos();
+        objAlumno.insertarAlumno(txtNombreAlumno, txtApellidoAlumno);
+        objAlumno.mostrarAlumnos(tbListaAlumno);
+        txtNombreAlumno.setText("");
+        txtApellidoAlumno.setText("");
+    }//GEN-LAST:event_btnInsertarActionPerformed
+
+    private void tbListaAlumnoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbListaAlumnoMouseClicked
+        alumnos objAlumno = new alumnos();
+        objAlumno.seleccionarAlumno(tbListaAlumno, txtIDAlumno, txtNombreAlumno, txtApellidoAlumno);
+        if (tbListaAlumno.getSelectedRow() != -1) {
+            btnInsertar.setEnabled(false);
+            } else {
+            btnInsertar.setEnabled(true);
+        }
+    }//GEN-LAST:event_tbListaAlumnoMouseClicked
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        alumnos objAlumno = new alumnos();
+        objAlumno.modificarAlumno(txtIDAlumno, txtNombreAlumno, txtApellidoAlumno);
+        objAlumno.mostrarAlumnos(tbListaAlumno);
+        txtIDAlumno.setText("");
+        txtNombreAlumno.setText("");
+        txtApellidoAlumno.setText("");
+        btnInsertar.setEnabled(true);
+    }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        alumnos objAlumno = new alumnos();
+        objAlumno.eliminarAlumno(txtIDAlumno);
+        objAlumno.mostrarAlumnos(tbListaAlumno);
+        txtIDAlumno.setText("");
+        txtNombreAlumno.setText("");
+        txtApellidoAlumno.setText("");
+        btnInsertar.setEnabled(true);
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -211,9 +272,9 @@ public class vistaAlumnos extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnInsertar;
+    private javax.swing.JButton btnModificar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

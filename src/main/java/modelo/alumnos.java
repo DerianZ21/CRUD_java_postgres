@@ -1,15 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package modelo;
 
 import conexion.conexion;
+import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -78,5 +76,95 @@ public class alumnos {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "ERROR:"+e.toString());
         }
-    }   
+    }  
+    
+    public void insertarAlumno(JTextField paramNombre, JTextField paramApellido){
+        setNombre(paramNombre.getText());
+        setApellido(paramApellido.getText());
+        if (nombre.isEmpty() || apellido.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor, ingresa el nombre y apellido del alumno.", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            setNombre(nombre);
+            setApellido(apellido);
+            conexion objConexion = new conexion();
+        
+            String consulta = "insert into alumnos (nombres, apellidos)  values(?, ?);";
+
+            try {
+                CallableStatement cs = objConexion.iniciarConexion().prepareCall(consulta);
+                cs.setString(1, getNombre());
+                cs.setString(2, getApellido());
+
+                cs.execute();
+
+                JOptionPane.showMessageDialog(null, "Se insertó correctamente");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "ERROR:"+e.toString());
+            }
+        }
+    }
+    
+    public void seleccionarAlumno(JTable paramTablaAlumno, JTextField paramCodigo, JTextField paramNombre,  JTextField paramApellido){
+        try {
+            int fila = paramTablaAlumno.getSelectedRow();
+            if(fila>=0){
+                paramCodigo.setText(paramTablaAlumno.getValueAt(fila, 0).toString());
+                paramNombre.setText(paramTablaAlumno.getValueAt(fila, 1).toString());
+                paramApellido.setText(paramTablaAlumno.getValueAt(fila, 2).toString());
+            }else{
+                JOptionPane.showMessageDialog(null, "Error al seleccionar la fila");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "ERROR:"+e.toString());
+        }
+    }
+    
+    public void modificarAlumno(JTextField paramCodigo, JTextField paramNombre, JTextField paramApellido){
+        setId(Integer.parseInt(paramCodigo.getText()));
+        setNombre(paramNombre.getText());
+        setApellido(paramApellido.getText());
+        if (nombre.isEmpty() || apellido.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor, ingresa el nombre y apellido del alumno.", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            conexion objConexion = new conexion();
+
+            String consulta = "UPDATE alumnos set nombres = ?, apellidos = ? where id = ?;";
+
+            try {
+                CallableStatement cs = objConexion.iniciarConexion().prepareCall(consulta);
+                cs.setString(1, getNombre());
+                cs.setString(2, getApellido());
+                cs.setInt(3, getId());
+
+                cs.execute();
+
+                JOptionPane.showMessageDialog(null, "Se modificó correctamente");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "ERROR:"+e.toString());
+            }
+        }
+    }
+    
+    public void eliminarAlumno(JTextField paramCodigo){
+        setId(Integer.parseInt(paramCodigo.getText()));
+        
+        
+        conexion objConexion = new conexion();
+        
+        String consulta = "delete from alumnos where alumnos.id=?;";
+        
+        try {
+            CallableStatement cs = objConexion.iniciarConexion().prepareCall(consulta);
+            
+            cs.setInt(1, getId());
+            
+            cs.execute();
+            
+            JOptionPane.showMessageDialog(null, "Se Eliminó correctamente");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "ERROR:"+e.toString());
+        }
+    }
+    
+    
 }

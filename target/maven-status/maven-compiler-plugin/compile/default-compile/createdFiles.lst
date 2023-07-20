@@ -1,5 +1,9 @@
 conexion\conexion.class
+vista\vistaAlumnos$5.class
+vista\vistaAlumnos$2.class
+com\mycompany\javacrudpostgres\JavaCRUDPostgres.class
 vista\vistaAlumnos.class
 modelo\alumnos.class
+vista\vistaAlumnos$3.class
 vista\vistaAlumnos$1.class
-com\mycompany\javacrudpostgres\JavaCRUDPostgres.class
+vista\vistaAlumnos$4.class

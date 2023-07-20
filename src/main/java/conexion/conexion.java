@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package conexion;
 
 import java.sql.Connection;
@@ -30,7 +25,7 @@ public class conexion {
             
             conectar = DriverManager.getConnection(cadena, usuario, contraseña);
         
-            JOptionPane.showMessageDialog(null, "Se conectó correctamente a la base de datos ");
+            
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "ERROR: "+e.toString());
         }
